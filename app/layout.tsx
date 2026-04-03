@@ -5,7 +5,13 @@ import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Analytics } from "@/components/analytics";
-import { OWNER_NAME, SITE_URL } from "@/lib/constants";
+import {
+  JOB_TITLE,
+  LOCATION,
+  OWNER_NAME,
+  SITE_DESCRIPTION,
+  SITE_URL,
+} from "@/lib/constants";
 import { social } from "@/content/data/social";
 
 const inter = Inter({
@@ -20,9 +26,7 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-const siteTitle = `${OWNER_NAME} | Full Stack Developer`;
-const description =
-  "Portfolio of Alex Johnson — full-stack engineer building accessible web products, design systems, and APIs.";
+const siteTitle = `${OWNER_NAME} | ${JOB_TITLE}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -30,15 +34,15 @@ export const metadata: Metadata = {
     default: siteTitle,
     template: `%s | ${OWNER_NAME}`,
   },
-  description,
+  description: SITE_DESCRIPTION,
   keywords: [
-    "Alex Johnson",
-    "Full Stack Developer",
+    OWNER_NAME,
+    JOB_TITLE,
     "Next.js",
     "TypeScript",
     "React",
     "Portfolio",
-    "San Francisco",
+    LOCATION,
   ],
   authors: [{ name: OWNER_NAME, url: SITE_URL }],
   creator: OWNER_NAME,
@@ -49,7 +53,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: siteTitle,
     title: siteTitle,
-    description,
+    description: SITE_DESCRIPTION,
     images: [
       {
         url: "/images/avatar.jpg",
@@ -62,7 +66,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
-    description,
+    description: SITE_DESCRIPTION,
     images: ["/images/avatar.jpg"],
   },
   alternates: { canonical: SITE_URL },
@@ -73,7 +77,7 @@ const jsonLd = {
   "@type": "Person",
   name: OWNER_NAME,
   url: SITE_URL,
-  jobTitle: "Full Stack Developer",
+  jobTitle: JOB_TITLE,
   sameAs: [social.github, social.linkedin, social.twitter],
 };
 
