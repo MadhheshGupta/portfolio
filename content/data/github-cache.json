@@ -1,0 +1,22 @@
+[
+  {
+    "name": "portfolio",
+    "description": "Personal portfolio built with Next.js",
+    "stars": 42,
+    "forks": 8,
+    "language": "TypeScript",
+    "languageColor": "#3178c6",
+    "updatedAt": "2026-03-15T12:00:00Z",
+    "url": "https://github.com/octocat/Hello-World"
+  },
+  {
+    "name": "design-system",
+    "description": "Accessible UI primitives and tokens",
+    "stars": 128,
+    "forks": 19,
+    "language": "TypeScript",
+    "languageColor": "#3178c6",
+    "updatedAt": "2026-02-01T09:30:00Z",
+    "url": "https://github.com/octocat/Hello-World"
+  }
+]

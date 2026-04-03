@@ -1,0 +1,24 @@
+---
+title: "Hello World: Shipping a Portfolio with Next.js 14"
+date: "2026-03-12"
+tags: ["Next.js", "MDX", "Career"]
+excerpt: "Why I chose the App Router, MDX for writing, and a few lessons from building this site end to end."
+thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80"
+readTime: "8 min read"
+---
+
+This post walks through the goals behind this portfolio: fast iteration, accessible defaults, and content that is easy to update without touching layout code.
+
+## Why MDX
+
+MDX lets you mix Markdown with React components when you need more than prose. For a personal site, that balance keeps posts portable while leaving room for embeds or callouts later.
+
+## Performance checklist
+
+- Prefer `next/image` for every raster asset so you get automatic sizing and modern formats.
+- Keep interactive widgets behind dynamic imports when they are not needed for first paint.
+- Reach for server components for data fetching and static rendering whenever possible.
+
+## What is next
+
+I'll be writing about API design, observability, and frontend architecture. If a topic would help your team, reach out via the contact form.
