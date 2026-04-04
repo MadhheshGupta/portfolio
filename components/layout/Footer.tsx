@@ -1,92 +1,59 @@
 "use client";
 
-import { OWNER_NAME } from "@/lib/constants";
-import { social } from "@/content/data/social";
+import { OWNER_NAME, TAGLINE } from "@/lib/constants";
+import { SOCIAL, mailtoHref } from "@/content/data/social";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { Mail } from "lucide-react";
-import Link from "next/link";
 import { ArrowUp } from "lucide-react";
-
-const nav = [
-  { href: "/#home", label: "Home" },
-  { href: "/#about", label: "About" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#experience", label: "Experience" },
-  { href: "/blog", label: "Blog" },
-  { href: "/#contact", label: "Contact" },
-];
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-slate-200 bg-surface py-12 dark:border-slate-800">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <footer className="border-t border-white/10 bg-surface/40 py-14 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-4 text-center sm:px-6 lg:px-8">
         <div>
           <p className="text-lg font-semibold text-foreground">{OWNER_NAME}</p>
-          <p className="mt-1 text-sm text-muted">Building thoughtful software.</p>
+          <p className="mt-2 max-w-md text-sm text-muted">{TAGLINE}</p>
         </div>
 
-        <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted">
-          {nav.map((n) => (
-            <Link
-              key={n.href + n.label}
-              href={n.href}
-              className="hover:text-primary"
-            >
-              {n.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center justify-center gap-4 lg:justify-end">
+        <div className="flex items-center justify-center gap-5">
           <a
-            href={social.github}
+            href={SOCIAL.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted hover:text-primary"
+            className="text-muted transition hover:text-primary hover:drop-shadow-[0_0_8px_rgba(99,102,241,0.6)]"
             aria-label="GitHub"
           >
-            <FaGithub className="h-5 w-5" />
+            <FaGithub className="h-6 w-6" />
           </a>
           <a
-            href={social.linkedin}
+            href={SOCIAL.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted hover:text-primary"
+            className="text-muted transition hover:text-accent hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"
             aria-label="LinkedIn"
           >
-            <FaLinkedin className="h-5 w-5" />
+            <FaLinkedin className="h-6 w-6" />
           </a>
           <a
-            href={social.twitter}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted hover:text-primary"
-            aria-label="X"
-          >
-            <FaXTwitter className="h-5 w-5" />
-          </a>
-          <a
-            href={social.email}
-            className="text-muted hover:text-primary"
+            href={mailtoHref}
+            className="text-muted transition hover:text-primary hover:drop-shadow-[0_0_8px_rgba(99,102,241,0.6)]"
             aria-label="Email"
           >
-            <Mail className="h-5 w-5" />
+            <Mail className="h-6 w-6" />
           </a>
         </div>
-      </div>
 
-      <div className="mx-auto mt-10 flex max-w-6xl flex-col items-center justify-between gap-4 border-t border-slate-200 px-4 pt-8 dark:border-slate-800 sm:flex-row sm:px-6 lg:px-8">
         <p className="text-sm text-muted">
-          © {year} {OWNER_NAME}. All rights reserved.
+          Built by {OWNER_NAME} · {year}
         </p>
+
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-foreground transition hover:border-primary hover:text-primary dark:border-slate-700"
+          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-[var(--color-bg)]/60 px-5 py-2.5 text-sm font-medium text-foreground shadow-glow-sm transition hover:border-primary/40 hover:shadow-glow"
+          aria-label="Back to top"
         >
           <ArrowUp className="h-4 w-4" />
           Back to Top

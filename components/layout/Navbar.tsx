@@ -5,7 +5,6 @@ import { OWNER_NAME } from "@/lib/constants";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -14,8 +13,6 @@ const links = [
   { href: "/#about", label: "About", id: "about" },
   { href: "/#skills", label: "Skills", id: "skills" },
   { href: "/#projects", label: "Projects", id: "projects" },
-  { href: "/#experience", label: "Experience", id: "experience" },
-  { href: "/#blog", label: "Blog", id: "blog" },
   { href: "/#contact", label: "Contact", id: "contact" },
 ];
 
@@ -41,15 +38,16 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors",
-        scrolled &&
-          "border-slate-200/80 bg-[var(--color-bg)]/80 backdrop-blur-md dark:border-slate-700/80"
+        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        scrolled
+          ? "border-b border-white/10 glass-strong shadow-glow-sm"
+          : "border-b border-transparent bg-[var(--color-bg)]/40 backdrop-blur-xl"
       )}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href="/#home"
-          className="text-lg font-semibold tracking-tight text-foreground hover:text-primary"
+          className="text-lg font-semibold tracking-tight text-foreground transition hover:text-primary"
         >
           {OWNER_NAME.split(" ")[0]}
           <span className="text-primary">.</span>
@@ -63,7 +61,7 @@ export function Navbar() {
               className={cn(
                 "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 active === l.id
-                  ? "bg-surface text-primary"
+                  ? "bg-surface/90 text-primary shadow-glow-sm"
                   : "text-muted hover:text-foreground"
               )}
             >
@@ -72,18 +70,15 @@ export function Navbar() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg border border-slate-200 p-2 text-foreground dark:border-slate-700 lg:hidden"
-            aria-expanded={open}
-            aria-label="Toggle menu"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-lg border border-white/15 bg-surface/50 p-2 text-foreground backdrop-blur-sm transition hover:border-primary/50 hover:text-primary lg:hidden"
+          aria-expanded={open}
+          aria-label="Toggle menu"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </nav>
 
       <AnimatePresence>
@@ -93,7 +88,7 @@ export function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="border-t border-slate-200 bg-[var(--color-bg)]/95 backdrop-blur dark:border-slate-700 lg:hidden"
+            className="border-t border-white/10 bg-[var(--color-bg)]/95 backdrop-blur-xl lg:hidden"
           >
             <div className="flex flex-col gap-1 px-4 py-4">
               {links.map((l) => (

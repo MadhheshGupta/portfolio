@@ -16,6 +16,8 @@ export function BlogCard({ post }: Props) {
           alt=""
           fill
           sizes="(max-width: 768px) 100vw, 400px"
+          loading="lazy"
+          decoding="async"
           className="object-cover transition duration-500 group-hover:scale-105"
         />
       </Link>

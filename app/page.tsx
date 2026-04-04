@@ -1,49 +1,39 @@
 import dynamic from "next/dynamic";
-import { getPinnedRepositories } from "@/lib/github";
-import { getAllPosts } from "@/lib/posts";
+import { Hero } from "@/components/sections/Hero";
+import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
 
-const Hero = dynamic(
-  () => import("@/components/sections/Hero").then((m) => ({ default: m.Hero })),
-  { ssr: false, loading: () => <div className="min-h-screen" aria-hidden /> }
-);
 const About = dynamic(
-  () => import("@/components/sections/About").then((m) => ({ default: m.About })),
-  { ssr: false }
+  () =>
+    import("@/components/sections/About").then((m) => ({ default: m.About })),
+  { loading: () => <SectionSkeleton variant="about" /> }
 );
 const Skills = dynamic(
-  () => import("@/components/sections/Skills").then((m) => ({ default: m.Skills })),
-  { ssr: false }
+  () =>
+    import("@/components/sections/Skills").then((m) => ({ default: m.Skills })),
+  { loading: () => <SectionSkeleton variant="skills" /> }
 );
 const Projects = dynamic(
-  () => import("@/components/sections/Projects").then((m) => ({ default: m.Projects })),
-  { ssr: false }
-);
-const Experience = dynamic(
   () =>
-    import("@/components/sections/Experience").then((m) => ({ default: m.Experience })),
-  { ssr: false }
-);
-const Blog = dynamic(
-  () => import("@/components/sections/Blog").then((m) => ({ default: m.Blog })),
-  { ssr: false }
+    import("@/components/sections/Projects").then((m) => ({
+      default: m.Projects,
+    })),
+  { loading: () => <SectionSkeleton variant="projects" /> }
 );
 const Contact = dynamic(
-  () => import("@/components/sections/Contact").then((m) => ({ default: m.Contact })),
-  { ssr: false }
+  () =>
+    import("@/components/sections/Contact").then((m) => ({
+      default: m.Contact,
+    })),
+  { loading: () => <SectionSkeleton variant="contact" /> }
 );
 
-export default async function Home() {
-  const posts = getAllPosts();
-  const pinnedRepos = await getPinnedRepositories();
-
+export default function Home() {
   return (
-    <main>
+    <main className="relative">
       <Hero />
       <About />
       <Skills />
-      <Projects pinnedRepos={pinnedRepos} />
-      <Experience />
-      <Blog posts={posts} />
+      <Projects />
       <Contact />
     </main>
   );

@@ -6,13 +6,12 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Analytics } from "@/components/analytics";
 import {
-  JOB_TITLE,
-  LOCATION,
   OWNER_NAME,
   SITE_DESCRIPTION,
   SITE_URL,
+  METADATA_BASE_ORIGIN,
 } from "@/lib/constants";
-import { social } from "@/content/data/social";
+import { SOCIAL } from "@/content/data/social";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,23 +25,22 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-const siteTitle = `${OWNER_NAME} | ${JOB_TITLE}`;
+const title = "Madhesh Gupta | Java Developer & CS Student";
+const ogTitle = "Madhesh Gupta | Java Developer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(METADATA_BASE_ORIGIN),
   title: {
-    default: siteTitle,
+    default: title,
     template: `%s | ${OWNER_NAME}`,
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    OWNER_NAME,
-    JOB_TITLE,
-    "Next.js",
-    "TypeScript",
-    "React",
-    "Portfolio",
-    LOCATION,
+    "Java Developer",
+    "Python",
+    "Spring Boot",
+    "Student Portfolio",
+    "Madhesh Gupta",
   ],
   authors: [{ name: OWNER_NAME, url: SITE_URL }],
   creator: OWNER_NAME,
@@ -50,24 +48,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: SITE_URL,
-    siteName: siteTitle,
-    title: siteTitle,
-    description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: "/images/avatar.jpg",
-        width: 800,
-        height: 800,
-        alt: OWNER_NAME,
-      },
-    ],
+    url: METADATA_BASE_ORIGIN,
+    title: ogTitle,
+    description: "Java Developer & CS Student | Building Real-World Solutions",
+    siteName: ogTitle,
   },
   twitter: {
     card: "summary_large_image",
-    title: siteTitle,
-    description: SITE_DESCRIPTION,
-    images: ["/images/avatar.jpg"],
+    title: ogTitle,
+    description: "Java Developer & CS Student | Building Real-World Solutions",
   },
   alternates: { canonical: SITE_URL },
 };
@@ -76,9 +65,9 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: OWNER_NAME,
+  email: SOCIAL.email,
   url: SITE_URL,
-  jobTitle: JOB_TITLE,
-  sameAs: [social.github, social.linkedin, social.twitter],
+  sameAs: [SOCIAL.github, SOCIAL.linkedin],
 };
 
 export default function RootLayout({
@@ -87,16 +76,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark ${inter.variable} ${inter.className}`}
+      suppressHydrationWarning
+    >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className={`${inter.variable} ${jetbrains.variable} min-h-screen font-sans`}
-      >
+      <body className={`${jetbrains.variable} min-h-screen font-sans antialiased`}>
         <Providers>
           <Analytics />
           <Navbar />

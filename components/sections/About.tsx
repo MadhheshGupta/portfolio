@@ -1,20 +1,81 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { Download, MapPin } from "lucide-react";
+import { Download } from "lucide-react";
 import {
   AVAILABILITY,
   BIO,
-  EXPERIENCE_YEARS,
   LOCATION,
   OWNER_NAME,
+  ROLES,
+  TAGLINE,
 } from "@/lib/constants";
+import { useEffect, useState } from "react";
+
+const terminalLines = [
+  `name: "${OWNER_NAME}"`,
+  `role: "${ROLES[0]}"`,
+  `skills: ["Java", "Python", "MySQL"]`,
+  `status: "${AVAILABILITY}"`,
+  `passion: "Real-World Solutions"`,
+];
+
+function TerminalCard() {
+  const [lineIndex, setLineIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+
+  useEffect(() => {
+    if (lineIndex >= terminalLines.length) return;
+    const line = terminalLines[lineIndex];
+    if (charIndex < line.length) {
+      const t = window.setTimeout(() => setCharIndex((c) => c + 1), 28);
+      return () => window.clearTimeout(t);
+    }
+    const t = window.setTimeout(() => {
+      setLineIndex((i) => i + 1);
+      setCharIndex(0);
+    }, 320);
+    return () => window.clearTimeout(t);
+  }, [lineIndex, charIndex]);
+
+  const display =
+    lineIndex >= terminalLines.length
+      ? terminalLines.join("\n")
+      : [
+          ...terminalLines.slice(0, lineIndex),
+          terminalLines[lineIndex].slice(0, charIndex),
+        ].join("\n");
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-[#0c1222]/90 shadow-neon backdrop-blur-xl">
+      <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+        <span className="h-3 w-3 rounded-full bg-error/80" />
+        <span className="h-3 w-3 rounded-full bg-amber-400/80" />
+        <span className="h-3 w-3 rounded-full bg-success/80" />
+        <span className="ml-2 font-mono text-xs text-muted">about.json</span>
+      </div>
+      <pre className="max-h-[320px] overflow-auto p-5 font-mono text-sm leading-relaxed text-accent sm:text-[0.95rem]">
+        <code className="text-left">
+          <span className="text-muted">{">"} </span>
+          {display}
+          <span className="ml-0.5 inline-block h-4 w-2 animate-pulse bg-accent align-middle" />
+        </code>
+      </pre>
+    </div>
+  );
+}
+
+const sectionFade = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
 
 export function About() {
-  const open = AVAILABILITY === "open";
-
   return (
     <section id="about" className="scroll-mt-24 py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -27,39 +88,35 @@ export function About() {
           About
         </motion.h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-muted">
-          A quick snapshot of who I am and how I work with teams.
+          {TAGLINE}
         </p>
 
-        <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:items-start">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            variants={sectionFade}
+            initial="hidden"
+            whileInView="show"
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
           >
-            <p className="whitespace-pre-line text-body text-muted">{BIO}</p>
+            <p className="text-body text-muted text-balance">{BIO}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full bg-surface px-4 py-2 text-sm text-foreground ring-1 ring-slate-200 dark:ring-slate-600">
-                <MapPin className="h-4 w-4 text-primary" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-surface/80 px-4 py-2 text-sm text-foreground backdrop-blur-sm">
+                <span aria-hidden>📍</span>
                 {LOCATION}
               </span>
-              <span className="inline-flex items-center rounded-full bg-surface px-4 py-2 text-sm text-foreground ring-1 ring-slate-200 dark:ring-slate-600">
-                {EXPERIENCE_YEARS}+ years experience
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-surface/80 px-4 py-2 text-sm text-foreground backdrop-blur-sm">
+                <span aria-hidden>💼</span>
+                {ROLES[0]}
               </span>
-              <span
-                className={
-                  open
-                    ? "inline-flex items-center rounded-full bg-emerald-500/15 px-4 py-2 text-sm font-medium text-emerald-700 ring-1 ring-emerald-500/40 dark:text-emerald-400"
-                    : "inline-flex items-center rounded-full bg-slate-200 px-4 py-2 text-sm text-muted dark:bg-slate-700"
-                }
-              >
-                {open ? "Open to Work" : "Not available"}
+              <span className="inline-flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-4 py-2 text-sm font-medium text-success backdrop-blur-sm">
+                <span aria-hidden>✅</span>
+                {AVAILABILITY}
               </span>
             </div>
             <Link
               href="/resume.pdf"
               download
-              className="mt-8 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark"
+              className="mt-8 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-primary-dark hover:shadow-glow-card"
             >
               <Download className="h-4 w-4" />
               Download CV
@@ -67,22 +124,15 @@ export function About() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            variants={sectionFade}
+            initial="hidden"
+            whileInView="show"
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="relative mx-auto max-w-lg"
+            transition={{ delay: 0.1 }}
+            className="relative"
           >
-            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 to-transparent blur-2xl" />
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-700">
-              <Image
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
-                alt={`${OWNER_NAME} workspace`}
-                width={800}
-                height={600}
-                className="h-full w-full object-cover"
-              />
-            </div>
+            <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/25 to-accent/10 blur-2xl" />
+            <TerminalCard />
           </motion.div>
         </div>
       </div>

@@ -1,21 +1,29 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, Download } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { Mail } from "lucide-react";
 import { OWNER_NAME, ROLES, TAGLINE } from "@/lib/constants";
-import { social } from "@/content/data/social";
+import { SOCIAL, mailtoHref } from "@/content/data/social";
 import { useTypewriter } from "@/hooks/useTypewriter";
+
+const HeroMeshBackground = dynamic(
+  () =>
+    import("@/components/sections/HeroMeshBackground").then((m) => ({
+      default: m.HeroMeshBackground,
+    })),
+  { ssr: false }
+);
 
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.12, delayChildren: 0.08 },
   },
 };
 
@@ -24,7 +32,7 @@ const item = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
@@ -34,59 +42,58 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden pt-24"
+      className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-24"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(37,99,235,0.15),_transparent_55%),radial-gradient(ellipse_at_bottom,_rgba(30,64,175,0.12),_transparent_50%)] dark:bg-[radial-gradient(ellipse_at_top,_rgba(37,99,235,0.25),_transparent_55%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] [background-size:48px_48px]" />
+      <HeroMeshBackground />
 
-      <div className="relative z-10 mx-auto grid max-w-6xl flex-1 grid-cols-1 items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="text-center lg:text-left"
+          className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-none lg:text-left"
         >
           <motion.p
             variants={item}
-            className="text-sm font-semibold uppercase tracking-[0.2em] text-primary"
+            className="text-lg text-muted sm:text-xl"
           >
-            Hello, I&apos;m
+            Hi, I&apos;m
           </motion.p>
           <motion.h1
             variants={item}
-            className="mt-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-h1"
+            className="mt-2 bg-gradient-to-r from-primary via-[#818cf8] to-accent bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-h1"
           >
             {OWNER_NAME}
           </motion.h1>
           <motion.p
             variants={item}
-            className="mt-4 min-h-[2.5rem] text-xl text-primary sm:text-2xl"
+            className="mt-5 min-h-[2.75rem] font-mono text-xl text-accent sm:text-2xl"
           >
-            {typed}
-            <span className="ml-0.5 inline-block h-8 w-0.5 animate-pulse bg-primary align-middle" />
+            <span className="text-foreground/90">{typed}</span>
+            <span className="ml-0.5 inline-block h-7 w-0.5 animate-pulse bg-accent align-middle shadow-glow-cyan" />
           </motion.p>
           <motion.p
             variants={item}
-            className="mt-6 max-w-xl text-body text-muted lg:mx-0 mx-auto"
+            className="mt-6 text-body text-muted text-balance"
           >
             {TAGLINE}
           </motion.p>
 
           <motion.div
             variants={item}
-            className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+            className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
           >
             <Link
               href="/#projects"
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:bg-primary-dark"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-white shadow-glow transition hover:bg-primary-dark hover:shadow-glow-card"
             >
-              View My Work
+              View My Projects
               <ArrowDown className="h-4 w-4" />
             </Link>
             <a
               href="/resume.pdf"
               download
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-surface px-6 py-3 text-sm font-semibold text-foreground transition hover:border-primary hover:text-primary dark:border-slate-600"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-surface/50 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur-sm transition hover:border-primary/60 hover:text-primary hover:shadow-glow-sm"
             >
               <Download className="h-4 w-4" />
               Download Resume
@@ -95,38 +102,29 @@ export function Hero() {
 
           <motion.div
             variants={item}
-            className="mt-10 flex justify-center gap-4 lg:justify-start"
+            className="mt-12 flex justify-center gap-4 lg:justify-start"
           >
             <a
-              href={social.github}
+              href={SOCIAL.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-slate-200 p-2.5 text-muted transition hover:border-primary hover:text-primary dark:border-slate-600"
+              className="rounded-xl border border-white/15 bg-surface/40 p-3 text-muted backdrop-blur-sm transition hover:border-primary/50 hover:text-primary hover:shadow-glow-sm"
               aria-label="GitHub"
             >
               <FaGithub className="h-5 w-5" />
             </a>
             <a
-              href={social.linkedin}
+              href={SOCIAL.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-slate-200 p-2.5 text-muted transition hover:border-primary hover:text-primary dark:border-slate-600"
+              className="rounded-xl border border-white/15 bg-surface/40 p-3 text-muted backdrop-blur-sm transition hover:border-accent/50 hover:text-accent hover:shadow-glow-cyan"
               aria-label="LinkedIn"
             >
               <FaLinkedin className="h-5 w-5" />
             </a>
             <a
-              href={social.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg border border-slate-200 p-2.5 text-muted transition hover:border-primary hover:text-primary dark:border-slate-600"
-              aria-label="X"
-            >
-              <FaXTwitter className="h-5 w-5" />
-            </a>
-            <a
-              href={social.email}
-              className="rounded-lg border border-slate-200 p-2.5 text-muted transition hover:border-primary hover:text-primary dark:border-slate-600"
+              href={mailtoHref}
+              className="rounded-xl border border-white/15 bg-surface/40 p-3 text-muted backdrop-blur-sm transition hover:border-primary/50 hover:text-primary hover:shadow-glow-sm"
               aria-label="Email"
             >
               <Mail className="h-5 w-5" />
@@ -135,23 +133,22 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
+          initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative mx-auto flex max-w-md justify-center lg:max-w-none"
+          transition={{ duration: 0.55, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto flex w-full max-w-[min(100%,500px)] justify-center lg:max-w-none lg:justify-end"
         >
-          <div className="relative aspect-square w-full max-w-sm">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/40 to-primary-dark/30 blur-3xl" />
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 shadow-2xl dark:border-slate-700">
-              <Image
-                src="/images/avatar.jpg"
-                alt={OWNER_NAME}
-                width={480}
-                height={480}
-                priority
-                className="h-full w-full object-cover"
-              />
-            </div>
+          <div className="absolute inset-0 -z-10 scale-110 rounded-full bg-gradient-to-tr from-primary/35 to-accent/25 blur-3xl" />
+          <div className="relative aspect-square w-full max-w-[500px] overflow-hidden rounded-3xl border border-white/10 shadow-glow-card ring-1 ring-white/5">
+            <Image
+              src="/hero.webp"
+              alt={OWNER_NAME}
+              width={500}
+              height={500}
+              priority
+              sizes="(max-width: 768px) 100vw, 500px"
+              className="h-full w-full object-cover"
+            />
           </div>
         </motion.div>
       </div>

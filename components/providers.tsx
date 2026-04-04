@@ -4,7 +4,13 @@ import { ThemeProvider } from "next-themes";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="portfolio-theme">
+    <ThemeProvider
+      attribute="class"
+      forcedTheme="dark"
+      enableSystem={false}
+      defaultTheme="dark"
+      storageKey="portfolio-theme"
+    >
       {children}
     </ThemeProvider>
   );
