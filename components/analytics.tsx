@@ -1,4 +1,7 @@
+"use client";
+
 import Script from "next/script";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
@@ -6,7 +9,8 @@ const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 export function Analytics() {
   return (
     <>
-      {gaId ? (
+      {/* Google Analytics */}
+      {gaId && (
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
@@ -21,15 +25,20 @@ export function Analytics() {
             `}
           </Script>
         </>
-      ) : null}
-      {plausibleDomain ? (
+      )}
+
+      {/* Plausible */}
+      {plausibleDomain && (
         <Script
           defer
           data-domain={plausibleDomain}
           src="https://plausible.io/js/script.js"
           strategy="afterInteractive"
         />
-      ) : null}
+      )}
+
+      {/* Vercel Analytics (IMPORTANT) */}
+      <VercelAnalytics />
     </>
   );
 }
