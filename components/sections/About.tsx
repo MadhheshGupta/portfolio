@@ -16,9 +16,9 @@ import { useEffect, useState } from "react";
 const terminalLines = [
   `name: "${OWNER_NAME}"`,
   `role: "${ROLES[0]}"`,
-  `skills: ["Java", "Python", "MySQL"]`,
+  `skills: ["Java", "SQL", "Next.js", "REST APIs"]`,
   `status: "${AVAILABILITY}"`,
-  `passion: "Real-World Solutions"`,
+  `passion: "Shipping Working Software"`,
 ];
 
 function TerminalCard() {

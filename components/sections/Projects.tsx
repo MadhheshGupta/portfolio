@@ -5,16 +5,16 @@ import { motion } from "framer-motion";
 import { PROJECTS } from "@/content/data/projects";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 
-type Filter = "All" | "Java" | "Python" | "IoT";
+type Filter = "All" | "Java" | "AI/ML" | "Next.js";
 
-const filters: Filter[] = ["All", "Java", "Python", "IoT"];
+const filters: Filter[] = ["All", "Java", "AI/ML", "Next.js"];
 
 function matchesFilter(project: (typeof PROJECTS)[0], f: Filter): boolean {
   if (f === "All") return true;
   const tags = project.tags.map((t) => t.toLowerCase());
   if (f === "Java") return tags.some((t) => t.includes("java"));
-  if (f === "Python") return tags.some((t) => t.includes("python"));
-  if (f === "IoT") return tags.some((t) => t.includes("iot"));
+  if (f === "AI/ML") return project.category === "AI/ML";
+  if (f === "Next.js") return tags.some((t) => t.includes("next"));
   return true;
 }
 
@@ -38,7 +38,7 @@ export function Projects() {
           What I&apos;ve Built
         </motion.h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-muted">
-          Selected projects spanning databases, IoT data, and backend systems.
+          Production-deployed apps and real-world systems — built with Java, Next.js, and AI.
         </p>
 
         <div className="mt-10 flex flex-wrap justify-center gap-2">

@@ -4,13 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
+import { ExternalLink } from "lucide-react";
 import type { Project } from "@/content/data/projects";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 const gradientById: Record<string, string> = {
+  "document-chat": "from-cyan-600/40 via-primary/30 to-indigo-500/25",
+  "slams": "from-violet-600/35 via-slate-700/40 to-accent/20",
   "student-dbms": "from-indigo-600/40 via-primary/30 to-cyan-500/25",
-  "expense-tracker": "from-violet-600/35 via-slate-700/40 to-accent/20",
 };
 
 type Props = { project: Project; index: number };
@@ -81,17 +83,30 @@ export function ProjectCard({ project, index }: Props) {
             </span>
           ))}
         </div>
-        {project.repoUrl && (
-          <Link
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex w-fit items-center gap-2 rounded-xl border border-white/15 bg-[var(--color-bg)]/60 px-4 py-2.5 text-sm font-semibold text-foreground backdrop-blur-sm transition hover:border-primary/50 hover:text-primary hover:shadow-glow-sm"
-          >
-            <FaGithub className="h-4 w-4" />
-            GitHub
-          </Link>
-        )}
+        <div className="mt-5 flex flex-wrap gap-2">
+          {project.repoUrl && (
+            <Link
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-2 rounded-xl border border-white/15 bg-[var(--color-bg)]/60 px-4 py-2.5 text-sm font-semibold text-foreground backdrop-blur-sm transition hover:border-primary/50 hover:text-primary hover:shadow-glow-sm"
+            >
+              <FaGithub className="h-4 w-4" />
+              GitHub
+            </Link>
+          )}
+          {project.liveUrl && (
+            <Link
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-2 rounded-xl border border-accent/30 bg-accent/10 px-4 py-2.5 text-sm font-semibold text-accent backdrop-blur-sm transition hover:border-accent/60 hover:bg-accent/20 hover:shadow-glow-cyan"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Live Demo
+            </Link>
+          )}
+        </div>
       </div>
     </motion.article>
   );

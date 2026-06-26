@@ -1,4 +1,4 @@
-export type SkillCategory = "Languages" | "Tools" | "Web";
+export type SkillCategory = "Languages" | "Tools" | "Frameworks";
 
 export type Skill = {
   name: string;
@@ -7,12 +7,18 @@ export type Skill = {
 };
 
 export const SKILLS: Skill[] = [
-  { name: "Java", category: "Languages", proficiency: 85 },
-  { name: "Python", category: "Languages", proficiency: 75 },
-  { name: "MySQL", category: "Languages", proficiency: 78 },
-  { name: "Git", category: "Tools", proficiency: 80 },
-  { name: "TensorFlow", category: "Tools", proficiency: 60 },
-  { name: "Spring Boot", category: "Tools", proficiency: 72 },
-  { name: "InfluxDB", category: "Tools", proficiency: 65 },
-  { name: "HTML", category: "Web", proficiency: 75 },
+  // Languages
+  { name: "Java", category: "Languages", proficiency: 80 },
+  { name: "SQL (MySQL / PostgreSQL)", category: "Languages", proficiency: 48 },
+  { name: "JavaScript / TypeScript", category: "Languages", proficiency: 48 },
+
+  // Frameworks
+  { name: "React / Next.js", category: "Frameworks", proficiency: 48 },
+  { name: "JDBC / Servlet", category: "Frameworks", proficiency: 48 },
+
+  // Tools
+  { name: "Git & GitHub", category: "Tools", proficiency: 80 },
+  { name: "REST APIs", category: "Tools", proficiency: 65 },
+  { name: "Vercel", category: "Tools", proficiency: 80 },
+  { name: "AI / ML (Gemini, TensorFlow)", category: "Tools", proficiency: 48 },
 ];
